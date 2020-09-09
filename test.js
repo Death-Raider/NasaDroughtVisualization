@@ -20,7 +20,6 @@ basicData.forEach((val,i,a)=>{
   a[i] = parseFloat(newVal[0]);
 });
 
-
 //console.log("cleaning data got");
 dataValues = dataValues.map(e=>e.split(" ").filter(x=>(x=="")?false:true).map(x=>(x == basicData[5])?-1:parseFloat(x)) )
 
