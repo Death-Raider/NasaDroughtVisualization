@@ -7,21 +7,28 @@
   </head>
   <body>
     <canvas id="MyCanvas" width="360px" height="143px"></canvas>
+    <input type="digit" value="10" min="1" max="10" maxlength="2" id="val">
+    <button onclick = "get(document.getElementById('val').value)">get data</button>
+
     <script>
       const c = document.getElementById("MyCanvas");
       const ctx = c.getContext("2d");
-      
-      get()
-      async function get(){
-        const responce = await fetch('/api');
+      async function get(mag){
+        const options = {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({val:mag}) //converts to json the data to send
+        };
+        const responce = await fetch('/apiPost',options);
         let data = await responce.json()
-        data = data.map(JSON.parse);
         console.log(data);
-        console.log(data[2465]);
         console.log(data.length);
+        console.log(data[2]);
         ctx.fillStyle = "red";
         for(let i = 0; i < data.length; i++){
-          ctx.fillRect(180 + data[i][1][0], 58 + data[i][1][1], 1, 1);
+          ctx.fillRect(180 + data[i][0], 58 + data[i][1], 1, 1);
         }
         console.log("done");
       }
