@@ -21,8 +21,4 @@ app.post('/apiPost', async (request,responce) => {
   responce.send(JSON.stringify(dataRaw))
 });
 
-app.get('/api',async (request, responce) => {
-
-});
-
 app.listen(process.env.PORT || 3000, () => console.log('listening at 3000'));
