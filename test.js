@@ -1,6 +1,7 @@
-//use   $node --max-old-space-size=5120 test.js
+//use   $ node --max-old-space-size=5120 test.js
 const fs = require('fs')
 const latitude = 51.39261,longitude = -93.79688;
+
 //read data and filter by line break
 dataRaw = fs.readFileSync("gddrg.asc").toString("utf8")
 dataRaw = dataRaw.split("\r\n");
@@ -19,8 +20,6 @@ basicData.forEach((val,i,a)=>{
   a[i] = parseFloat(newVal[0]);
 });
 
-//calculate the latitude and longituded in the grid from the user inputed latituded and longituded
-const latnum = Math.ceil((85-latitude)/basicData[4]), longnum = Math.ceil((-basicData[2]+longitude)/basicData[4]);
 
 //console.log("cleaning data got");
 dataValues = dataValues.map(e=>e.split(" ").filter(x=>(x=="")?false:true).map(x=>(x == basicData[5])?-1:parseFloat(x)) )
@@ -32,16 +31,16 @@ dataMatrix.forEach((e,i,a)=>{
   a[i] = new Array(basicData[0]).fill(0)
 });
 
+//calculate the latitude and longituded in the grid from the user inputed latituded and longituded
+const latnum = Math.ceil((-basicData[3]+latitude)/basicData[4]), longnum = Math.ceil((-basicData[2]+longitude)/basicData[4]);
 //update the matrix with the values
 //console.log("updating Matrix(takes about 20 sec max so wait)");
-for(let i = 0; i < basicData[1]; i++){
+for(let i = basicData[1]-1; i > 0; i--){
   for(let index = 0; index < basicData[0]; index++){
-    dataMatrix[i][index]=[ dataValues[i][index],[basicData[2]+basicData[4]*index , 84.999 - basicData[4]*i] ]
-    //if(dataValues[i][index] != -1) console.log(JSON.stringify(dataMatrix[i][index]));
+    dataMatrix[i][index]=[ dataValues[i][index],[basicData[2]+basicData[4]*index , basicData[3]+ basicData[4]*i] ]
+    if(dataValues[i][index] != -1) console.log(JSON.stringify(dataMatrix[i][index]));
   }
 }
-
-console.log(dataMatrix[latnum][longnum],latnum,longnum);
 
 //do this later not required for visulization
 /*
