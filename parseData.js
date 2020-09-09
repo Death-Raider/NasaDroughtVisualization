@@ -1,4 +1,4 @@
-//use   $ node --max-old-space-size=5120 test.js
+//use   $ node --max-old-space-size=5120 parsedData.js
 const fs = require('fs')
 
 //read data and filter by line break
