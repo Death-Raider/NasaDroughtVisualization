@@ -1,8 +1,8 @@
-//use   $ node --max-old-space-size=5120 test.js
+//use   $ node --max-old-space-size=5120 parseData.js
 const fs = require('fs')
 
 //read data and filter by line break
-const dataRaw = fs.readFileSync("gddrg.asc").toString("utf8")
+var dataRaw = fs.readFileSync("gddrg.asc").toString("utf8")
 dataRaw = dataRaw.split("\r\n");
 dataRaw.pop()
 
@@ -31,7 +31,7 @@ dataMatrix.forEach((e,i,a)=>{
 });
 
 //update the matrix with the values
-console.log("updating Matrix(takes about 20 sec max so wait)");
+console.log("updating Matrix");
 for(let i = basicData[1]-1; i >= 0; i--){
   for(let index = 0; index < basicData[0]; index++){
     let updatelat = basicData[3]+ basicData[4]*i;
@@ -40,6 +40,7 @@ for(let i = basicData[1]-1; i >= 0; i--){
   }
 }
 
+console.log("final sorting");
 //sorting the datamatrix into clean chunks based on the frequency
 let cleanData = [null,[],[],[],[],[],[],[],[],[],[]]//dont ask why.... i am desperate
 for (let i = 0; i < dataMatrix.length; i++) {
@@ -49,9 +50,8 @@ for (let i = 0; i < dataMatrix.length; i++) {
     }
   }
 }
-
+console.log("creating new datafiles");
 streams(cleanData);
-console.log("DONE!!!");
 
 function streams(cd){
   for(let j = 1; j < 11; j++){
@@ -60,6 +60,7 @@ function streams(cd){
       let dataSendingStream = JSON.stringify(cd[j]);
       stream.write(dataSendingStream);
       console.log("stream",j);
+      console.log(`DONE!!! stream ${j}`);
       stream.end();
     });
   }

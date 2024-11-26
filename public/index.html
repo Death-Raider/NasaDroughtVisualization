@@ -25,12 +25,24 @@
         let data = await responce.json()
         console.log(data);
         console.log(data.length);
-        console.log(data[2]);
-        ctx.fillStyle = "red";
+        ctx.fillStyle = Rgb(155+(11-mag)*10,(11-mag)*10,(11-mag)*10);
         for(let i = 0; i < data.length; i++){
           ctx.fillRect(180 + data[i][0], 58 + data[i][1], 1, 1);
         }
         console.log("done");
+      }
+      function Rgb(r,g,b){
+        r = r.toString(16);
+        g = g.toString(16);
+        b = b.toString(16);
+
+        if (r.length == 1)
+          r = "0" + r;
+        if (g.length == 1)
+          g = "0" + g;
+        if (b.length == 1)
+          b = "0" + b;
+        return "#" + r + g + b;
       }
     </script>
   </body>
